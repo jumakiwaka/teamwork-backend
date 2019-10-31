@@ -1,0 +1,19 @@
+{
+  "name": "teamwork-backend",
+  "version": "1.0.0",
+  "description": "A backend layer for an internal social network for employees in an organisation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jumakiwaka/teamwork-backend.git"
+  },
+  "author": "Juma Kiwaka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jumakiwaka/teamwork-backend/issues"
+  },
+  "homepage": "https://github.com/jumakiwaka/teamwork-backend#readme"
+}
