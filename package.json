@@ -4,8 +4,9 @@
   "description": "A backend layer for an internal social network for employees in an organisation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "test": "mocha test/**/*Test.js",
+    "start": "nodemon server.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -19,12 +20,15 @@
   "homepage": "https://github.com/jumakiwaka/teamwork-backend#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.19.0",    
     "cloudinary": "^1.16.0",
     "express": "^4.17.1",
     "json-web-token": "^3.2.0",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
-    "pg": "^7.12.1"
+    "chai": "^4.2.0"
   }
 }
