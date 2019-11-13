@@ -33,7 +33,7 @@ const createTables = () => {
 
   pool.query(queryText)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       pool.end();
     })
     .catch((err) => {

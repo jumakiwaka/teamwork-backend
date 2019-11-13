@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
+const creataTable = require('../../../db').createTables;
 
 const user = {
   /**
@@ -18,6 +19,7 @@ const user = {
       returning *`;     
 
     try {
+        const result = await creataTable();
         const password_hash = await bcrypt.hash(req.body.password, 7);        
         const values = [
             uuid(),
