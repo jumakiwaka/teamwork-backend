@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/userRoutes');
-const gifRouter = require('./routes/gifRoutes');
+// const gifRouter = require('./routes/gifRoutes');
 
 app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
@@ -16,6 +16,6 @@ app.use((req, res, next) => {
 
 
 app.use('/api/v1/auth', userRouter);
-app.use('/api/v1/gifs', gifRouter);
+// app.use('/api/v1/gifs', gifRouter);
 
 module.exports = app;
