@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const User = require("../models/usingDb/controllers/user");
 
 exports.signUp = (req, res) => {
