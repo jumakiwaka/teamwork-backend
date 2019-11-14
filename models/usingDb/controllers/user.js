@@ -19,7 +19,22 @@ const user = {
       returning *`;     
 
     try {
-        const result = await creataTable();
+      const queryText =
+    `CREATE TABLE IF NOT EXISTS
+      users(
+        id UUID PRIMARY KEY,
+        firstname VARCHAR(128) NOT NULL,
+        lastname VARCHAR(128) NOT NULL,
+        email VARCHAR(128) NOT NULL UNIQUE,
+        password VARCHAR(128) NOT NULL,
+        gender VARCHAR(30),
+        jobrole VARCHAR(128) NOT NULL,
+        department VARCHAR(128) NOT NULL,
+        address VARCHAR(128) NOT NULL,
+        created_date TIMESTAMP,
+        modified_date TIMESTAMP
+      )`;
+        await creataTable(queryText);
         const password_hash = await bcrypt.hash(req.body.password, 7);        
         const values = [
             uuid(),
