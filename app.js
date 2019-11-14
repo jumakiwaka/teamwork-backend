@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/userRoutes');
+const articleRouter = require('./routes/articleRouter');
 // const gifRouter = require('./routes/gifRoutes');
 
 app.set('port', process.env.PORT || 3000);
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api/v1/auth', userRouter);
+app.use('/api/v1/resources', articleRouter);
 // app.use('/api/v1/gifs', gifRouter);
 
 module.exports = app;
