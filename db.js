@@ -14,32 +14,17 @@ pool.on('connect', () => {
 /**
  * Create Tables
  */
-const createTables = () => {
-  const queryText =
-    `CREATE TABLE IF NOT EXISTS
-      users(
-        id UUID PRIMARY KEY,
-        firstname VARCHAR(128) NOT NULL,
-        lastname VARCHAR(128) NOT NULL,
-        email VARCHAR(128) NOT NULL UNIQUE,
-        password VARCHAR(128) NOT NULL,
-        gender VARCHAR(30),
-        jobrole VARCHAR(128) NOT NULL,
-        department VARCHAR(128) NOT NULL,
-        address VARCHAR(128) NOT NULL,
-        created_date TIMESTAMP,
-        modified_date TIMESTAMP
-      )`;
+const createTables = (queryText) => { 
 
-  pool.query(queryText)
+  return new Promise((resolve, reject) => {
+    pool.query(queryText)
     .then((res) => {
-      // console.log(res);
-      pool.end();
+      resolve(res);
     })
     .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
+      reject(err);
+    })
+  })
 }
 
 /**
