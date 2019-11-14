@@ -91,6 +91,7 @@ const user = {
             'error': 'user not found'
         });
       }
+      
       const isValidPassword = await bcrypt.compare(req.body.password, rows[0].password);
       if(!isValidPassword){        
         return res.status(400).json({

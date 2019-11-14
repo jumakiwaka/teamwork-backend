@@ -34,7 +34,7 @@ exports.signIn = (req, res) => {
     ];    
     const hasAllFields = !fields.find(field => body.hasOwnProperty(field) === false);
 
-    if (hasAllFields) {
+    if (hasAllFields) {        
         User.getUser(req, res);
     } else {
         res.status(400).json({
@@ -42,12 +42,5 @@ exports.signIn = (req, res) => {
             "error": "missing property in request body"
         })
     }
-
-    res.status(201).json({
-        "status": "success",
-        "data": {
-            "token": "Your token",
-            "userId": parseInt(Math.random() * 1000000, 10),
-        }
-    });
+   
 }
