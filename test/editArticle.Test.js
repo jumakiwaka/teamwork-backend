@@ -24,7 +24,7 @@ describe('Editing an article', function(){
                         const { body } = res;
                         const { status, data } = body;
                         const { token, userId } = data;
-                    request(app).post(`/api/v1/resources/articles/${id}`)
+                    request(app).patch(`/api/v1/resources/articles/${id}`)
                     .send({
                         "title" : "Node 12",
                         "article" : "It supports imports just like es6! It also has improved security!",
