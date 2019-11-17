@@ -59,6 +59,61 @@ const article = {
     }
   },
   /**
+   * Create A comment
+   * @param {object} req 
+   * @param {object} res
+   * @returns {object} article object 
+   */
+  async createComment(req, res) {
+    const text = `INSERT INTO
+      article_comments(article_id, user_id, comment, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5)
+      returning *`; 
+    const getArticleQuery = 'SELECT * FROM articles WHERE id=$1';    
+
+    try {
+        const queryText =
+    `CREATE TABLE IF NOT EXISTS
+      article_comments(
+        article_id INT NOT NULL,
+        user_id INT NOT NULL,
+        comment VARCHAR(528) NOT NULL,                
+        created_date TIMESTAMP,
+        modified_date TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE     
+      )`;
+        await creataTable(queryText);                       
+        const values = [  
+            req.params.articleId,
+            req.body.userId,              
+            req.body.comment,                       
+            moment(new Date()),
+            moment(new Date())
+        ];
+      const { rows } = await db.query(text, values);      
+      
+      const article = await db.query(getArticleQuery, [req.params.articleId]);            
+      return res.status(201).json({
+        "status" : "success",
+        "data" : {
+            "message" : "Comment successfully created",
+            "createdOn" : rows[0].created_date,            
+            "articleTitle" : article.rows[0].title,
+            "article" : article.rows[0].article,
+            "comment" : rows[0].comment
+        }
+    });
+    } catch(error) {  
+        console.log(error);
+            
+      return res.status(400).json({
+            "status" : "error",
+            error,          
+        });
+    }
+  },
+  /**
    * Get All articles
    * @param {object} req 
    * @param {object} res 
