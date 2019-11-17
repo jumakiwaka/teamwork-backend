@@ -136,7 +136,7 @@ const article = {
       WHERE id=$4 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [req.params.articleId]);
-      if(!rows[0]) {
+      if(!rows[0] && rows[0].user_id !== +req.body.userId) {
         return res.status(404).json({
             "status" : "error",
             'error': 'article not found'
@@ -171,23 +171,26 @@ const article = {
    * @param {object} res 
    * @returns {void} return statuc code 204 
    */
-  async deletearticle(req, res) {
+  async deleteArticle(req, res) {
     const deleteQuery = 'DELETE FROM articles WHERE id=$1 returning *';
     try {
-      const { rows } = await db.query(deleteQuery, [req.params.id]);
-      if(!rows[0]) {
+      const { rows } = await db.query(deleteQuery, [req.params.articleId]);
+      if(!rows[0] && rows[0].user_id !== +req.body.userId) {
         return res.status(404).json({
             "status" : "error",
             'error': 'article not found'
         });
       }
-      return res.status(204).json({
+     
+      return res.status(200).json({
           "status" : "success", 
           'data': {
-              "message" : 'article deleted succesfully',
+              "message" : 'Article successfully deleted',
           } 
         });
     } catch(error) {
+      console.log(error);
+      
       return res.status(400).json({
           "status" : "error",
           error
