@@ -15,6 +15,8 @@ describe('Editing an article', function(){
                     db.query(findAllQuery)
                     .then(({rows}) => {
                         const {id} = rows[0];
+                        
+                        
                         request(app).post('/api/v1/auth/signin')
                     .send({
                         "email": "jumakiwaka@teamwork.com",

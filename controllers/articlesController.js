@@ -42,5 +42,9 @@ module.exports = {
 
     deleteArticle: (req, res) => {
         articlesdb.deleteArticle(req, res);
+    },
+
+    createComment: (req, res) => {
+        articlesdb.createComment(req, res);
     }
 }
