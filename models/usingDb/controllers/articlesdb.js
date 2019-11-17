@@ -14,8 +14,8 @@ const article = {
    */
   async createArticle(req, res) {
     const text = `INSERT INTO
-      articles(id, title, article, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5)
+      articles(id, user_id, title, article, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6)
       returning *`;     
 
     try {
@@ -23,14 +23,17 @@ const article = {
     `CREATE TABLE IF NOT EXISTS
       articles(
         id INT NOT NULL PRIMARY KEY,
+        user_id INT NOT NULL,
         title VARCHAR(328) NOT NULL,
         article VARCHAR(1028) NOT NULL,        
         created_date TIMESTAMP,
-        modified_date TIMESTAMP       
+        modified_date TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE     
       )`;
         await creataTable(queryText);                       
         const values = [  
-            uuid(),              
+            uuid(),
+            req.body.userId,              
             req.body.title,
             req.body.article,           
             moment(new Date()),
@@ -126,38 +129,36 @@ const article = {
    * @param {object} res 
    * @returns {object} updated article
    */
-  async updatearticle(req, res) {
+  async editArticle(req, res) {
     const findOneQuery = 'SELECT * FROM articles WHERE id=$1';
     const updateOneQuery =`UPDATE articles
-      SET firstname=$1,lastname=$2,email=$3,password=$4,gender=$5,jobrole=$6,department=$7,address=$8,modified_date=$9
-      WHERE id=$10 returning *`;
+      SET title=$1,article=$2,modified_date=$3
+      WHERE id=$4 returning *`;
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.id]);
+      const { rows } = await db.query(findOneQuery, [req.params.articleId]);
       if(!rows[0]) {
         return res.status(404).json({
             "status" : "error",
             'error': 'article not found'
         });
-      }
-      const password_hash = await bcrypt.hash(req.body.password, 7);
-      const values = [        
-        req.body.firstname,
-        req.body.lastname,
-        req.body.email,
-        password_hash,
-        req.body.gender,
-        req.body.jobrole,
-        req.body.department,
-        req.body.address,
+      }      
+      const values = [                   
+        req.body.title,
+        req.body.article,           
         moment(new Date()),
-        
+        +req.params.articleId        
     ];
-      const response = await db.query(updateOneQuery, values);     
+      const data = await db.query(updateOneQuery, values);    // since rows has already been used  
       return res.status(200).json({
           "status" : "success",
-          "data" : [response.rows[0]]
+          "data" : {
+            "message" : "Article successfully updated",
+            "title" : data.rows[0].title,
+            "article" : data.rows[0].article
+          }
         });
     } catch(error) {
+           
       return res.status(400).json({
         "status" : "error",
         error

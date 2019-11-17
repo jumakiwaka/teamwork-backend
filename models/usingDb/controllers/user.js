@@ -14,15 +14,15 @@ const user = {
    */
   async createUser(req, res) {
     const text = `INSERT INTO
-      users(id, firstname, lastname, email, password, gender, jobrole, department, address, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      users(firstname, lastname, email, password, gender, jobrole, department, address, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       returning *`;     
 
     try {
       const queryText =
     `CREATE TABLE IF NOT EXISTS
       users(
-        id UUID PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         firstname VARCHAR(128) NOT NULL,
         lastname VARCHAR(128) NOT NULL,
         email VARCHAR(128) NOT NULL UNIQUE,
@@ -36,8 +36,7 @@ const user = {
       )`;
         await creataTable(queryText);
         const password_hash = await bcrypt.hash(req.body.password, 7);        
-        const values = [
-            uuid(),
+        const values = [           
             req.body.firstName,
             req.body.lastName,
             req.body.email,
@@ -50,6 +49,7 @@ const user = {
             moment(new Date())
         ];
       const { rows } = await db.query(text, values);
+            
       const token = jwt.sign({userId : rows[0].id}, 'RANDOM_SECRET_KEY', { expiresIn: '24h'});      
       return res.status(201).json({
         "status": "Success!",
