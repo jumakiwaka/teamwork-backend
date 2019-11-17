@@ -4,7 +4,8 @@ const auth = require('../middleware/auth');
 
 const articleRouter = express.Router();
 
-articleRouter.post('/articles', auth, articlesController);
+articleRouter.post('/articles', auth, articlesController.createArticle);
+articleRouter.post('/articles/:articleId', auth, articlesController.editArticle);
 
 
 module.exports = articleRouter;
