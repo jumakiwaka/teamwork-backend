@@ -1,8 +1,14 @@
 const gifdb = require('../models/usingDb/controllers/gifdb');
 
 
-module.exports = (req, res) => {
+module.exports = {
 
-    gifdb.createGif(req, res);
+    createGif : (req, res) => {
+        gifdb.createGif(req, res);
+    },
+
+    deleteGif : (req, res) => {
+        gifdb.deleteGif(req, res);
+    }
     
 }

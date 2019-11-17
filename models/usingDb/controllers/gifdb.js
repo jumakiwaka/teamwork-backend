@@ -60,13 +60,13 @@ const gif = {
     }
   },
   /**
-   * Get All articles
+   * Get All gifs
    * @param {object} req 
    * @param {object} res 
-   * @returns {object} articles array
+   * @returns {object} gifs array
    */
-  async getAllarticles(req, res) {
-    const findAllQuery = 'SELECT * FROM articles';
+  async getAllGifs(req, res) {
+    const findAllQuery = 'SELECT * FROM gifs';
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
       return res.status(200).json({
@@ -89,8 +89,8 @@ const gif = {
    * @param {object} res
    * @returns {object} gif object
    */
-  async getarticle(req, res) {
-    const text = 'SELECT * FROM articles WHERE email = $1';
+  async getGif(req, res) {
+    const text = 'SELECT * FROM gifs WHERE email = $1';
     try {
       const { rows } = await db.query(text, [req.body.email]);
       if (!rows[0]) {
@@ -130,9 +130,9 @@ const gif = {
    * @param {object} res 
    * @returns {object} updated gif
    */
-  async updatearticle(req, res) {
-    const findOneQuery = 'SELECT * FROM articles WHERE id=$1';
-    const updateOneQuery =`UPDATE articles
+  async updateGif(req, res) {
+    const findOneQuery = 'SELECT * FROM gifs WHERE id=$1';
+    const updateOneQuery =`UPDATE gifs
       SET firstname=$1,lastname=$2,email=$3,password=$4,gender=$5,jobrole=$6,department=$7,address=$8,modified_date=$9
       WHERE id=$10 returning *`;
     try {
@@ -174,23 +174,26 @@ const gif = {
    * @param {object} res 
    * @returns {void} return statuc code 204 
    */
-  async deletearticle(req, res) {
-    const deleteQuery = 'DELETE FROM articles WHERE id=$1 returning *';
+  async deleteGif(req, res) {
+    const deleteQuery = 'DELETE FROM gifs WHERE id=$1 returning *';
     try {
-      const { rows } = await db.query(deleteQuery, [req.params.id]);
-      if(!rows[0]) {
+      const { rows } = await db.query(deleteQuery, [req.params.gifId]);
+      
+      
+      if(!rows[0] && rows[0].user_id !== req.body.userId) {
         return res.status(404).json({
             "status" : "error",
             'error': 'gif not found'
         });
       }
-      return res.status(204).json({
+      return res.status(200).json({
           "status" : "success", 
           'data': {
-              "message" : 'gif deleted succesfully',
+              "message" : 'gif post successfully deleted',
           } 
         });
     } catch(error) {
+      console.log(error);
       return res.status(400).json({
           "status" : "error",
           error
