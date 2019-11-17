@@ -21,10 +21,12 @@ describe('Posting an article', function(){
                 .send({
                     "title" : "Node 12",
                     "article" : "It supports imports just like es6!",
-                    "userId" : `${userId}`
+                    "userId" : userId
                 })
                 .set('Authorization', `app ${token}`)
                 .then(res => {
+                    // console.log(res);
+                    
                     const {body} = res;
                     const {status, data} = body;
                     const {message, articleId, createdOn, title} = data;

@@ -14,8 +14,8 @@ const gif = {
    */
   async createGif(req, res) {
     const text = `INSERT INTO
-      gifs(id, title, image, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5)
+      gifs(id, user_id, title, image, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6)
       returning *`;     
 
     try {
@@ -23,14 +23,17 @@ const gif = {
     `CREATE TABLE IF NOT EXISTS
       gifs(
         id INT NOT NULL PRIMARY KEY,
+        user_id INT NOT NULL,
         title VARCHAR(328) NOT NULL,
         image VARCHAR(1028) NOT NULL,        
         created_date TIMESTAMP,
-        modified_date TIMESTAMP       
+        modified_date TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE       
       )`;
         await creataTable(queryText);                       
         const values = [  
-            uuid(),              
+            uuid(),
+            req.body.userId,              
             req.body.title,
             req.body.image,           
             moment(new Date()),

@@ -31,7 +31,7 @@ const createTables = (queryText) => {
  * Drop Tables
  */
 const dropTables = () => {
-  const queryText = 'DROP TABLE IF EXISTS users';
+  const queryText = 'DROP TABLE IF EXISTS users CASCADE';
   pool.query(queryText)
     .then((res) => {
       console.log(res);
