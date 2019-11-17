@@ -38,5 +38,9 @@ module.exports = {
             "error": "missing property in request body"
         })
     }
+    },
+
+    deleteArticle: (req, res) => {
+        articlesdb.deleteArticle(req, res);
     }
 }
