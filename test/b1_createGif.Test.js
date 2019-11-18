@@ -5,7 +5,7 @@ const path = require('path');
 const app = require('../app');
 
 describe('Creating a gif', function(){
-    this.timeout(10000);
+    this.timeout(15000);
     describe('given the user has logged in,', () => {
         describe('should save the gif to the database', () => {
             

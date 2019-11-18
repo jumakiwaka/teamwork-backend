@@ -25,8 +25,7 @@ describe('Getting a feed', function () {
                             .set('Authorization', `app ${token}`)
                             .then(res => {
                                 const { body } = res;
-                                console.log(body);
-
+                                
                                 const { status, data } = body;
                                 expect(res.status).to.equal(200);
                                 expect(data).to.be.an('Array');
