@@ -11,7 +11,7 @@ exports.signUp = (req, res) => {
         'jobRole',
         'department',
         'address'
-    ];    
+    ];
     const hasAllFields = !fields.find(field => body.hasOwnProperty(field) === false);
 
     if (hasAllFields) {
@@ -27,13 +27,13 @@ exports.signUp = (req, res) => {
 
 exports.signIn = (req, res) => {
     const { body } = req;
-    const fields = [        
+    const fields = [
         'email',
-        'password',        
-    ];    
+        'password',
+    ];
     const hasAllFields = !fields.find(field => body.hasOwnProperty(field) === false);
 
-    if (hasAllFields) {        
+    if (hasAllFields) {
         User.getUser(req, res);
     } else {
         res.status(400).json({
@@ -41,5 +41,5 @@ exports.signIn = (req, res) => {
             "error": "missing property in request body"
         })
     }
-   
+
 }

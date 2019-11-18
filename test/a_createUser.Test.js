@@ -114,10 +114,10 @@ describe('Creating a new User', () => {
 
         });
     });
-    describe('Ok, on succesful creation', function(){
+    describe('Ok, on succesful creation', function () {
         this.timeout(5000);
         describe('Should save new user to the database', () => {
-            it('Should genereate a new token and send it to the client,', (done) => {                
+            it('Should genereate a new token and send it to the client,', (done) => {
                 request(app).post('/api/v1/auth/create-user').
                     send({
                         "firstName": "Juma",
@@ -145,7 +145,7 @@ describe('Creating a new User', () => {
                         db.query(text, [`jumakiwaka@teamwork.com`]).then(({ rows }) => {
                             if (!rows[0]) {
                                 throw Error('User does not exist');
-                            }                            
+                            }
                             done();
                         }).catch(error => {
                             done(error);

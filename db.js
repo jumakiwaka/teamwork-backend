@@ -14,16 +14,16 @@ pool.on('connect', () => {
 /**
  * Create Tables
  */
-const createTables = (queryText) => { 
+const createTables = (queryText) => {
 
   return new Promise((resolve, reject) => {
     pool.query(queryText)
-    .then((res) => {
-      resolve(res);
-    })
-    .catch((err) => {
-      reject(err);
-    })
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      })
   })
 }
 
