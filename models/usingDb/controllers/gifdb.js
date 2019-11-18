@@ -76,6 +76,7 @@ const gif = {
         const queryText =
     `CREATE TABLE IF NOT EXISTS
       gif_comments(
+        id SERIAL,
         gif_id INT NOT NULL,
         user_id INT NOT NULL,
         comment VARCHAR(528) NOT NULL,                
@@ -143,32 +144,26 @@ const gif = {
    * @returns {object} gif object
    */
   async getGif(req, res) {
-    const text = 'SELECT * FROM gifs WHERE email = $1';
+    const text = 'SELECT id,created_date,title,image FROM gifs WHERE id = $1';
+    const getCommentsQuery = 'SELECT id,comment,user_Id FROM gif_comments where gif_id=$1'
     try {
-      const { rows } = await db.query(text, [req.body.email]);
+      const { rows } = await db.query(text, [req.params.gifId]);
+      const comments = await db.query(getCommentsQuery, [req.params.gifId]);
+
       if (!rows[0]) {
         return res.status(404).json({
             "status" : "error",
             'error': 'gif not found'
         });
-      }
+      }   
       
-      const isValidPassword = await bcrypt.compare(req.body.password, rows[0].password);
-      if(!isValidPassword){        
-        return res.status(400).json({
-          "status" : "error",
-          'error': 'Invalid credentials'
+      rows[0]["comments"] = comments.rows;
+
+      return res.status(200).json({
+        "status" : "success",
+        "data" : rows[0]
       });
-      }else{
-        const token = jwt.sign({ articleId : rows[0].id}, "RANDOM_SECRET_KEY", {expiresIn: '24h'});
-        return res.status(200).json({
-          "status" : "success",
-          "data" : {
-            "token" : token,
-            "articleId" : rows[0].id
-          }
-        });
-      }     
+          
     } catch(error) {
       console.log(error);
       return res.status(400).json({
