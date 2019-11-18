@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const userRouter = require('./routes/userRoutes');
 const articleRouter = require('./routes/articleRouter');
 const gifRouter = require('./routes/gifRoutes');
+const feedRouter = require('./routes/feedRoutes');
 const fileUpload = require('express-fileupload');
 
 app.set('port', process.env.PORT || 3000);
@@ -21,5 +22,6 @@ app.use((req, res, next) => {
 app.use('/api/v1/auth', userRouter);
 app.use('/api/v1/resources', articleRouter);
 app.use('/api/v1/resources', gifRouter);
+app.use('/api/v1/resources', feedRouter);
 
 module.exports = app;
