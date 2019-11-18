@@ -19,8 +19,8 @@ describe('Login', () => {
                     const { body } = res;
                     const { status, data } = body;
                     const { token, userId } = data;
-                    const decoded_token = jwt.verify(token, 'RANDOM_SECRET_KEY');
-                    const jwt_token = jwt.sign({ userId: userId }, 'RANDOM_SECRET_KEY', { expiresIn: '24h' })
+                    const decoded_token = jwt.verify(token, 'jujucrafteee');
+                    const jwt_token = jwt.sign({ userId: userId }, 'jujucrafteee', { expiresIn: '24h' })
 
                     expect(res.status).to.equal(200);
                     expect(status).to.equal('success');

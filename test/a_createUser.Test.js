@@ -133,7 +133,7 @@ describe('Creating a new User', () => {
                         const { body } = res;
                         const { status, data } = body;
                         const { message, token, userId } = data;
-                        const decoded_token = jwt.verify(token, 'RANDOM_SECRET_KEY');
+                        const decoded_token = jwt.verify(token, 'jujucrafteee');
 
                         expect(res.status).to.equal(201);
                         expect(status).to.equal('Success!');

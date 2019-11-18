@@ -50,7 +50,7 @@ const user = {
       ];
       const { rows } = await db.query(text, values);
 
-      const token = jwt.sign({ userId: rows[0].id }, 'RANDOM_SECRET_KEY', { expiresIn: '24h' });
+      const token = jwt.sign({ userId: rows[0].id }, 'jujucrafteee', { expiresIn: '24h' });
       return res.status(201).json({
         "status": "Success!",
         "data": {
@@ -91,7 +91,7 @@ const user = {
           'error': 'Invalid credentials'
         });
       } else {
-        const token = jwt.sign({ userId: rows[0].id }, "RANDOM_SECRET_KEY", { expiresIn: '24h' });
+        const token = jwt.sign({ userId: rows[0].id }, "jujucrafteee", { expiresIn: '24h' });
         return res.status(200).json({
           "status": "success",
           "data": {
