@@ -59,6 +59,59 @@ const gif = {
         });
     }
   },
+
+  /**
+   * Create A gif comment
+   * @param {object} req 
+   * @param {object} res
+   * @returns {object} gif object 
+   */
+  async createComment(req, res) {
+    const text = `INSERT INTO
+      gif_comments(gif_id, user_id, comment, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5)
+      returning *`;     
+    const getGifsQuery = 'SELECT * FROM gifs WHERE id=$1';
+    try {
+        const queryText =
+    `CREATE TABLE IF NOT EXISTS
+      gif_comments(
+        gif_id INT NOT NULL,
+        user_id INT NOT NULL,
+        comment VARCHAR(528) NOT NULL,                
+        created_date TIMESTAMP,
+        modified_date TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (gif_id) REFERENCES gifs(id) ON DELETE CASCADE       
+      )`;
+        await creataTable(queryText);                       
+        const values = [  
+            req.params.gifId,
+            req.body.userId,              
+            req.body.comment,                       
+            moment(new Date()),
+            moment(new Date())
+        ];
+      const { rows } = await db.query(text, values);  
+      const gifs = await db.query(getGifsQuery, [req.params.gifId]);          
+      return res.status(201).json({
+        "status" : "success",
+        "data" : {            
+            "message" : "Comment successfully created",
+            "createdOn" : rows[0].created_date,
+            "gifTitle" : gifs.rows[0].title,
+            "comment" : rows[0].comment,
+        }
+    });
+    } catch(error) {  
+        console.log(error);
+            
+      return res.status(400).json({
+            "status" : "error",
+            error,          
+        });
+    }
+  },
   /**
    * Get All gifs
    * @param {object} req 
@@ -70,7 +123,7 @@ const gif = {
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
       return res.status(200).json({
-        "status": "Success!",
+        "status": "success!",
         "data": {                        
             rows, 
             rowCount

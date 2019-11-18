@@ -9,6 +9,10 @@ module.exports = {
 
     deleteGif : (req, res) => {
         gifdb.deleteGif(req, res);
+    },
+
+    createComment: (req, res) => {
+        gifdb.createComment(req, res);
     }
     
 }
