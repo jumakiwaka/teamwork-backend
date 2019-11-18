@@ -46,5 +46,9 @@ module.exports = {
 
     createComment: (req, res) => {
         articlesdb.createComment(req, res);
+    },
+
+    getArticle: (req, res) =>{
+        articlesdb.getArticle(req, res);
     }
 }
