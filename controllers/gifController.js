@@ -13,6 +13,10 @@ module.exports = {
 
     createComment: (req, res) => {
         gifdb.createComment(req, res);
+    },
+
+    getGif: (req, res) => {
+        gifdb.getGif(req, res);
     }
     
 }
