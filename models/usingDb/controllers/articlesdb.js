@@ -75,6 +75,7 @@ const article = {
         const queryText =
     `CREATE TABLE IF NOT EXISTS
       article_comments(
+        id SERIAL,
         article_id INT NOT NULL,
         user_id INT NOT NULL,
         comment VARCHAR(528) NOT NULL,                
@@ -138,38 +139,32 @@ const article = {
     }
   },
   /**
-   * Get A article
+   * Get an article
    * @param {object} req 
    * @param {object} res
    * @returns {object} article object
    */
-  async getarticle(req, res) {
-    const text = 'SELECT * FROM articles WHERE email = $1';
+  async getArticle(req, res) {
+    const text = 'SELECT id,created_date,title,article FROM articles WHERE id = $1';
+    const getCommentsQuery = 'SELECT id,comment,user_Id FROM article_comments where article_id=$1'
     try {
-      const { rows } = await db.query(text, [req.body.email]);
+      const { rows } = await db.query(text, [req.params.articleId]);
+      const comments = await db.query(getCommentsQuery, [req.params.articleId]);
+
       if (!rows[0]) {
         return res.status(404).json({
             "status" : "error",
             'error': 'article not found'
         });
-      }
+      }   
       
-      const isValidPassword = await bcrypt.compare(req.body.password, rows[0].password);
-      if(!isValidPassword){        
-        return res.status(400).json({
-          "status" : "error",
-          'error': 'Invalid credentials'
+      rows[0]["comments"] = comments.rows;
+
+      return res.status(200).json({
+        "status" : "success",
+        "data" : rows[0]
       });
-      }else{
-        const token = jwt.sign({ articleId : rows[0].id}, "RANDOM_SECRET_KEY", {expiresIn: '24h'});
-        return res.status(200).json({
-          "status" : "success",
-          "data" : {
-            "token" : token,
-            "articleId" : rows[0].id
-          }
-        });
-      }     
+          
     } catch(error) {
       console.log(error);
       return res.status(400).json({
