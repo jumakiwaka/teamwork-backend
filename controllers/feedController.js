@@ -1,6 +1,6 @@
 const db = require('../models/usingDb/db/index');
 
-const getArticlesQuery = `SELECT 
+const getFeed = `SELECT 
                         id,created_date,title,article,user_id 
                         FROM articles                        
                         UNION 
@@ -15,17 +15,17 @@ const getArticlesQuery = `SELECT
 
 
 module.exports = async (req, res) => {
-    try {        
-        const {rows} = await db.query(getArticlesQuery); 
+    try {
+        const { rows } = await db.query(getFeed);
         res.status(200).json({
-           "status" : "success",
-           "data" : rows
-       })
+            "status": "success",
+            "data": rows
+        })
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            "status" : "Error",
-            "Error" : error
+            "status": "Error",
+            "Error": error
         })
     }
 }

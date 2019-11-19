@@ -4,7 +4,7 @@
   "description": "A backend layer for an internal social network for employees in an organisation",
   "main": "index.js",
   "scripts": {
-    "pretest": "node db dropTables",
+    "pretest": "node db deleteUser",
     "test": "mocha test/**/*Test.js",
     "start": "nodemon server.js",
     "lint": "eslint ."
@@ -38,5 +38,8 @@
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
+  },
+  "engines": {
+    "node" : "10.x"
   }
 }
