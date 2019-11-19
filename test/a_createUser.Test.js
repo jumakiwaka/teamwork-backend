@@ -12,7 +12,8 @@ const testRes = (res) => {
     assert.equal(res.status, 400);
 };
 
-describe('Creating a new User', () => {
+describe('Creating a new User', function() {
+    this.timeout(10000);
     describe('Should have all required properties in request body', () => {
         it('Should have a firstname property', (done) => {
             request(app)
@@ -229,8 +230,7 @@ describe('Creating a new User', () => {
             })
         });
     });
-    describe('Given user is an admin', function () {
-        this.timeout(5000);
+    describe('Given user is an admin', function () {        
         describe('Should save new user to the database', () => {
             it('Should genereate a new token and send it to the client,', (done) => {
                 request(app).post('/api/v1/auth/signin')
@@ -257,8 +257,7 @@ describe('Creating a new User', () => {
                             .set('Authorization', `app ${token}`)
                             .then(res => {
 
-                                const { body } = res;
-                                console.log(body);
+                                const { body } = res;                               
                                 
                                 const { status, data } = body;
                                 const { token, userId } = data;
