@@ -1,4 +1,4 @@
-# [Teamwork-backend](https://teamwork-backend-api4525.herokuapp.com)                               ![Build Status](https://travis-ci.org/jumakiwaka/teamwork-backend.svg?branch=master)](https://travis-ci.org/jumakiwaka/teamwork-backend)
+# [Teamwork-backend](https://teamwork-backend-api4525.herokuapp.com)                               [![Build Status](https://travis-ci.org/jumakiwaka/teamwork-backend.svg?branch=master)](https://travis-ci.org/jumakiwaka/teamwork-backend)
 
 ----
 
