@@ -14,8 +14,8 @@ const user = {
    */
   async createUser(req, res) {
     const text = `INSERT INTO
-      users(firstname, lastname, email, password, gender, jobrole, department, address, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      users(firstname, lastname, email, password, gender, jobrole, department, address, is_admin, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       returning *`;
 
     try {
@@ -31,6 +31,7 @@ const user = {
         jobrole VARCHAR(128) NOT NULL,
         department VARCHAR(128) NOT NULL,
         address VARCHAR(128) NOT NULL,
+        is_admin BOOLEAN DEFAULT FALSE,
         created_date TIMESTAMP,
         modified_date TIMESTAMP
       )`;
@@ -45,6 +46,7 @@ const user = {
         req.body.jobRole,
         req.body.department,
         req.body.address,
+        req.body.isAdmin,
         moment(new Date()),
         moment(new Date())
       ];
@@ -60,6 +62,8 @@ const user = {
         }
       });
     } catch (error) {
+      console.log(error);
+      
       return res.status(400).json({
         "status": "error",
         error,

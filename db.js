@@ -43,6 +43,19 @@ const dropTables = () => {
     });
 }
 
+const deleteUser = () => {
+  const queryText = 'DELETE FROM users WHERE email=$1';
+  pool.query(queryText, ["jumakiwaka@teamwork.com"])
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
+}
+
 pool.on('remove', () => {
   console.log('client removed');
   // process.exit(0);
@@ -50,7 +63,8 @@ pool.on('remove', () => {
 
 module.exports = {
   createTables,
-  dropTables
+  dropTables, 
+  deleteUser
 };
 
 require('make-runnable');
