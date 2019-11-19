@@ -4,6 +4,7 @@
   "description": "A backend layer for an internal social network for employees in an organisation",
   "main": "index.js",
   "scripts": {
+    "pretest": "node db deleteUser",
     "test": "mocha test/**/*Test.js",
     "start": "nodemon server.js",
     "lint": "eslint ."
@@ -24,8 +25,10 @@
     "cloudinary": "^1.16.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.6-alpha.6",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "multer": "^1.4.2",
     "pg": "^7.12.1",
     "uuid": "^3.3.3"
   },

@@ -14,16 +14,16 @@ pool.on('connect', () => {
 /**
  * Create Tables
  */
-const createTables = (queryText) => { 
+const createTables = (queryText) => {
 
   return new Promise((resolve, reject) => {
     pool.query(queryText)
-    .then((res) => {
-      resolve(res);
-    })
-    .catch((err) => {
-      reject(err);
-    })
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      })
   })
 }
 
@@ -31,8 +31,21 @@ const createTables = (queryText) => {
  * Drop Tables
  */
 const dropTables = () => {
-  const queryText = 'DROP TABLE IF EXISTS users';
+  const queryText = 'DROP TABLE IF EXISTS users CASCADE';
   pool.query(queryText)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
+}
+
+const deleteUser = () => {
+  const queryText = 'DELETE FROM users WHERE email=$1';
+  pool.query(queryText, ["jumakiwaka@teamwork.com"])
     .then((res) => {
       console.log(res);
       pool.end();
@@ -50,7 +63,8 @@ pool.on('remove', () => {
 
 module.exports = {
   createTables,
-  dropTables
+  dropTables, 
+  deleteUser
 };
 
 require('make-runnable');
